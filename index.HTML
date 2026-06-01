@@ -1,31 +1,26 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Ambil Voucher</title>
-</head>
-<body>
-
-<h2>Mengambil Voucher...</h2>
-
 <script>
 fetch("ambil.php")
 .then(res => res.json())
 .then(data => {
-    let user = data.username;
-    let pass = data.password;
 
-    // auto login ke mikrotik
+    if (data.error) {
+        document.body.innerHTML = data.error;
+        return;
+    }
+
+    let v = data.voucher;
+
     let form = document.createElement("form");
     form.method = "POST";
-    form.action = "http://10.10.10.1/login";
+    form.action = "http://IP-MIKROTIK/login";
 
     let u = document.createElement("input");
     u.name = "username";
-    u.value = user;
+    u.value = v;
 
     let p = document.createElement("input");
     p.name = "password";
-    p.value = pass;
+    p.value = v;
 
     form.appendChild(u);
     form.appendChild(p);
@@ -34,6 +29,3 @@ fetch("ambil.php")
     form.submit();
 });
 </script>
-
-</body>
-</html>
